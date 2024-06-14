@@ -39,14 +39,14 @@ module.exports.deletePost = async (req, res) => {
 
 module.exports.editPost = async (req, res) => {
     const { _id } = req.params;
-    const { authorId, updatedText } = req.body;
+    const updatedPost = req.body;
     const post = await model.findById(_id);
 
     if (post.authorId === authorId) {
-        model.findByIdAndUpdate(_id, { text: post.text + '\nUPD: ' + updatedText }).then(() => {
+        model.findByIdAndUpdate(_id, { updatedPost }).then(() => {
             res.json({
                 message: `Post with ID: "${ _id }" has been edited`,
-                updatedText: post.text + '\nUPD: ' + updatedText,
+                updatedPost: updatedPost,
             })
         })
     } else {
